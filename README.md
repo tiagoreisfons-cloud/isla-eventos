@@ -69,3 +69,8 @@ cp .env.example .env
 php artisan key:generate
 php artisan serve
 ```
+
+# Notas PL03
+
+## Desafio
+A rota /eventos/tipo/{tipo} não entra em conflito com /eventos/{id} porque tem um segmento a mais (/eventos/tipo/workshop tem 3 segmentos, /eventos/{id} só 2), por isso nunca correspondem ao mesmo endereço. Além disso, {id} tem whereNumber('id'), por isso só aceita números.
