@@ -34,3 +34,8 @@ php artisan route:list --except-vendor
 
 ### Desafio: /eventos/proximos
 Sem whereNumber('id') e escrita antes de /eventos/proximos, a rota /eventos/{id} apanhava o pedido, com $id = "proximos". Como a função declara int $id, daria erro em vez de mostrar os próximos eventos. As rotas são avaliadas pela ordem em que estão escritas e ganha a primeira que corresponde.
+
+# Notas PL03
+
+## Desafio
+A rota /eventos/tipo/{tipo} não entra em conflito com /eventos/{id} porque tem um segmento a mais (/eventos/tipo/workshop tem 3 segmentos, /eventos/{id} só 2), por isso nunca correspondem ao mesmo endereço. Além disso, {id} tem whereNumber('id'), por isso só aceita números.

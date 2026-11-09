@@ -7,101 +7,58 @@ use Illuminate\View\View;
 
 class EventoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request): View
     {
         $eventos = config('eventos');
-        $tipo = request('tipo');
-        $disponibilidade = request('disponibilidade');
+        $tipo = $request->query('tipo');
 
         if ($tipo) {
             $eventos = array_filter($eventos,
-                fn ($evento) => $evento['tipo'] === $tipo
-            );
-        }
-
-        if ($disponibilidade === 'Esgotados') {
-            $eventos = array_filter(
-                $eventos,
-                fn ($evento) => $evento['inscritos'] >= $evento['vagas']
-            );
-        } elseif ($disponibilidade === 'Disponíveis') {
-            $eventos = array_filter(
-                $eventos,
-                fn ($evento) => $evento['inscritos'] < $evento['vagas']
-            );
+                fn ($evento) => $evento['tipo'] === $tipo);
         }
 
         return view('eventos.index', [
             'eventos' => $eventos,
             'tipo' => $tipo,
-            'disponibilidade' => $disponibilidade,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show(int $id): View
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(int $id)
-    {
-        $eventos = config('eventos');
-        // Filtrar o evento pelo ID
-        $evento = null;
-
-        foreach ($eventos as $item) {
-            if ($item['id'] === $id) {
-                $evento = $item;
-            } 
-        }
+        $evento = $this->procurar($id);
 
         if ($evento === null) {
             abort(404);
         }
 
-        return view('eventos.show', [
-            'evento' => $evento,
+        return view('eventos.show', ['evento' => $evento]);
+    }
+
+    public function porTipo(string $tipo): View
+    {
+        $eventos = config('eventos');
+
+        if (!in_array($tipo, array_column($eventos, 'tipo'))) {
+            abort(404);
+        }
+
+        $eventos = array_filter($eventos,
+            fn ($evento) => $evento['tipo'] === $tipo);
+
+        return view('eventos.index', [
+            'eventos' => $eventos,
+            'tipo' => $tipo,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    private function procurar(int $id): ?array
     {
-        //
-    }
+        foreach (config('eventos') as $evento) {
+            if ($evento['id'] === $id) {
+                return $evento;
+            }
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return null;
     }
 }
