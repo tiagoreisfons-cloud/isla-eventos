@@ -18,3 +18,19 @@ B5.	/dobro/abc devolve 404: a restrição whereNumber faz com que a rota não co
 
 # Ver rotas activas
 php artisan route:list --except-vendor
+
+
+## PL02
+
+### Parte D: casos limite
+- /eventos/3 → 200 (o evento existe e a view eventos.show é devolvida)
+- /eventos/99 → 404 (o id é numérico, mas nenhum evento tem esse id, por isso a rota faz abort(404))
+- /eventos/abc → 404 (não chega a entrar na função: whereNumber('id') só aceita dígitos, por isso o Laravel considera que a rota não corresponde ao endereço)
+
+### Parte E: filtro por tipo
+- /eventos?tipo=xpto → aparece a mensagem do @empty ("Não há eventos para mostrar.")
+- /eventos?tipo=<h1>x → o <h1> aparece como texto no código-fonte, porque o {{ }} escapa o HTML.
+- Diferença: o parâmetro de rota ({id}) faz parte do caminho e é obrigatório; a query string (?tipo=) vem depois do ? e é opcional, lida com request().
+
+### Desafio: /eventos/proximos
+Sem whereNumber('id') e escrita antes de /eventos/proximos, a rota /eventos/{id} apanhava o pedido, com $id = "proximos". Como a função declara int $id, daria erro em vez de mostrar os próximos eventos. As rotas são avaliadas pela ordem em que estão escritas e ganha a primeira que corresponde.
