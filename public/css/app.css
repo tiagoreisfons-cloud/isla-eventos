@@ -1,0 +1,39 @@
+/* ISLA Eventos · folha de estilo própria (PL04) */
+:root {
+    --cor: #7a2022;
+    --cor-clara: #f7f1ef;
+    --texto: #2b2b2b;
+    --cinza: #6b6b6b;
+    --aviso: #fff4e0;
+    --info: #eaf4ea;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: var(--texto); line-height: 1.5; }
+.contentor { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
+a { color: var(--cor); }
+
+.topo { background: var(--cor); }
+.topo nav { display: flex; align-items: center; justify-content: space-between; min-height: 3.5rem; }
+.topo a { color: #fff; text-decoration: none; }
+.topo .marca { font-weight: 700; }
+.topo ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+.topo a[aria-current="page"] { border-bottom: 2px solid #fff; }
+
+main { padding-top: 1.5rem; padding-bottom: 2rem; min-height: 70vh; }
+
+.grelha { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.cartao { background: var(--cor-clara); border-radius: 8px; padding: 1rem; }
+.cartao h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+.cartao p { margin: 0; color: var(--cinza); }
+.etiqueta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cor); font-weight: 700; }
+
+.alerta { padding: 0.75rem 1rem; border-radius: 6px; margin: 1rem 0; }
+.alerta-info { background: var(--info); }
+.alerta-aviso { background: var(--aviso); }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #e6d6d1; }
+th { background: var(--cor-clara); }
+
+.botao { display: inline-block; background: var(--cor); color: #fff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; }
+.rodape { background: var(--cor-clara); color: var(--cinza); padding: 1rem 0; font-size: 0.9rem; }
